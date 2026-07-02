@@ -199,6 +199,7 @@ img{display:block;max-width:100%;}
   padding-bottom:4px;margin-bottom:26px;
 }
 .card__text{font-size:.95rem;color:#444;line-height:2.1;}
+.card__accent{color:var(--gold);font-weight:500;}
 .card__text strong{color:var(--gold);font-weight:700;font-size:1.05rem;}
 .card__tags{margin-top:22px;font-size:.8rem;letter-spacing:.12em;color:#999;}
 .card__links{margin-top:28px;display:flex;flex-direction:column;gap:14px;}
