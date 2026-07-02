@@ -184,9 +184,14 @@ img{display:block;max-width:100%;}
   transition:transform .6s var(--ease),box-shadow .6s var(--ease);
 }
 .card:hover{transform:translateY(-6px);box-shadow:0 36px 70px -28px rgba(40,30,10,.34);}
+.card__avatar{
+  width:96px;height:96px;border-radius:50%;object-fit:cover;
+  display:block;margin:0 auto 20px;
+  border:2px solid rgba(184,155,94,.3);
+}
 .card__logo{
   font-family:"Shippori Mincho B1","Noto Serif JP",serif;font-size:1.5rem;font-weight:600;
-  letter-spacing:.1em;color:var(--charcoal);margin-bottom:14px;
+  letter-spacing:.1em;color:var(--charcoal);margin-bottom:6px;
 }
 .card__role{
   display:inline-block;font-family:"Noto Serif JP",serif;font-size:.78rem;
@@ -243,6 +248,11 @@ img{display:block;max-width:100%;}
 
 /* ---------- セクション5：取り組み ---------- */
 .flow{max-width:1180px;margin:0 auto;padding:140px 6vw;}
+.flow__message{
+  text-align:center;font-family:"Noto Serif JP",serif;font-size:1rem;
+  line-height:2.2;letter-spacing:.08em;color:#555;
+  margin:48px auto 0;max-width:680px;
+}
 .flow__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:34px;}
 .flow__card{
   background:#fff;border-radius:8px;padding:50px 40px;text-align:center;
