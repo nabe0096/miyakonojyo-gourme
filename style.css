@@ -630,6 +630,27 @@ img{display:block;max-width:100%;}
   .stores__grid{grid-template-columns:1fr;}
 }
 
+/* ---------- モーダル スマホ対応 ---------- */
+@media(max-width:640px){
+  .store__modal-inner{
+    top:0;left:0;transform:none;
+    width:100%;max-height:100dvh;border-radius:0;
+    overflow-y:auto;overflow-x:hidden;
+  }
+  .store__modal-header{
+    flex-shrink:1;padding:52px 20px 16px;
+    position:sticky;top:0;background:#fff;z-index:2;
+  }
+  .store__modal-close{
+    position:fixed;top:12px;right:16px;z-index:10;
+  }
+  .store__modal-grid{
+    overflow-y:visible;padding:4px;
+    grid-template-columns:repeat(2,1fr);
+  }
+  .store__modal-item{height:180px;}
+}
+
 /* ---------- 最後のCTA ---------- */
 .cta{position:relative;padding:170px 6vw;overflow:hidden;display:flex;align-items:center;justify-content:center;text-align:center;}
 .cta__bg{
