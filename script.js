@@ -172,23 +172,22 @@ document.addEventListener('DOMContentLoaded', () => {
       storeModalName.textContent = card.dataset.store;
       storeModalDate.textContent = card.dataset.date;
       const storeModalInfo = document.getElementById('storeModalInfo');
+      const addressLink = card.dataset.address
+        ? `<a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(card.dataset.address)}" target="_blank" rel="noopener" class="store__map-link">${card.dataset.address}</a>`
+        : null;
       const infoItems = [
         card.dataset.genre,
         card.dataset.price,
         card.dataset.hours ? `営業時間 ${card.dataset.hours}` : null,
-        card.dataset.address,
+        addressLink,
       ].filter(Boolean);
       storeModalInfo.innerHTML = infoItems.map(t => `<li>${t}</li>`).join('');
 
       const storeModalMemo = document.getElementById('storeModalMemo');
       storeModalMemo.textContent = card.dataset.memo || '';
       storeModalGrid.innerHTML = storeImages.map((src, i) => {
-        const filename = src.split('/').pop();
-        return `<div class="store__modal-item">
-          <img src="${src}" alt="" data-index="${i}">
-          <a class="store__modal-dl" href="${src}" download="${filename}" title="ダウンロード">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v13M7 11l5 5 5-5"/><path d="M4 20h16"/></svg>
-          </a>
+        return `<div class="store__modal-item" data-index="${i}">
+          <img src="${src}" alt="">
         </div>`;
       }).join('');
       storeModal.classList.add('is-open');
@@ -196,12 +195,19 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  // 右クリック・長押し・ドラッグ禁止
+  storeModalGrid.addEventListener('contextmenu', e => e.preventDefault());
+  storeModalGrid.addEventListener('dragstart', e => e.preventDefault());
+  storeModalGrid.addEventListener('touchstart', e => {
+    if (e.target.tagName === 'IMG') e.preventDefault();
+  }, { passive: false });
+
   storeModalGrid.addEventListener('click', e => {
-    const img = e.target.closest('img');
-    if (!img) return;
+    const item = e.target.closest('.store__modal-item');
+    if (!item) return;
     lightboxImages = storeImages;
-    lightboxCurrentIndex = parseInt(img.dataset.index);
-    lightboxImg.src = img.src;
+    lightboxCurrentIndex = parseInt(item.dataset.index);
+    lightboxImg.src = storeImages[lightboxCurrentIndex];
     lightbox.classList.add('is-open');
   });
 

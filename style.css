@@ -509,6 +509,10 @@ img{display:block;max-width:100%;}
 .store__share.is-copied .store__share-toast{opacity:1;}
 .store__date{font-size:.78rem;letter-spacing:.12em;color:#aaa;}
 .store__address,.store__tel,.store__hours{font-size:.78rem;letter-spacing:.06em;color:#999;margin-top:4px;}
+.store__address{text-decoration:underline;text-underline-offset:2px;}
+.store__address:hover{color:var(--gold);}
+.store__map-link{color:inherit;text-decoration:underline;text-underline-offset:2px;}
+.store__map-link:hover{color:var(--gold);}
 .store__instagram{
   display:flex;align-items:center;justify-content:center;gap:6px;
   margin-top:14px;padding:8px 18px;
@@ -603,6 +607,9 @@ img{display:block;max-width:100%;}
 .store__modal-item img{
   width:100%;height:100%;object-fit:cover;
   cursor:pointer;transition:opacity .3s;display:block;
+  -webkit-user-select:none;user-select:none;
+  -webkit-touch-callout:none;
+  pointer-events:none;
 }
 .store__modal-item:hover img{opacity:.75;}
 .store__modal-dl{
