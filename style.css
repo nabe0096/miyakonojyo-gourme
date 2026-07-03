@@ -480,6 +480,9 @@ img{display:block;max-width:100%;}
   padding:4px 12px;border-radius:2px;
 }
 .store__photos{position:relative;height:240px;display:grid;grid-template-columns:2fr 1fr;gap:2px;}
+.store__coming-soon{height:240px;display:flex;align-items:center;justify-content:center;background:var(--kinari);border-bottom:1px solid rgba(184,155,94,.2);}
+.store__coming-text{font-family:"Noto Serif JP",serif;font-size:1.1rem;letter-spacing:.25em;color:var(--gold);font-weight:500;}
+.store__card[data-coming-soon]{cursor:default;}
 .store__photo--main{background-size:cover;background-position:center;height:100%;}
 .store__thumbs{display:grid;grid-template-rows:repeat(3,1fr);gap:2px;height:100%;}
 .store__thumb{background-size:cover;background-position:center;}

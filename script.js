@@ -167,6 +167,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.querySelectorAll('.store__card').forEach(card => {
     card.addEventListener('click', () => {
+      if (card.dataset.comingSoon) return;
       storeImages = JSON.parse(card.dataset.images);
       storeModalName.textContent = card.dataset.store;
       storeModalDate.textContent = card.dataset.date;
