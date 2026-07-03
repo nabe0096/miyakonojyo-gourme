@@ -155,6 +155,29 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.style.overflow = storeModal.classList.contains('is-open') ? 'hidden' : '';
   };
 
+  /* ---------- YouTube動画ID取得 ---------- */
+  const getYouTubeId = url => {
+    const m = url.match(/(?:youtu\.be\/|youtube\.com\/(?:shorts\/|embed\/|watch\?v=))([^?&/]+)/);
+    return m ? m[1] : null;
+  };
+
+  /* ---------- 動画ライトボックス ---------- */
+  const videoLightbox = document.getElementById('videoLightbox');
+  const videoLightboxIframe = document.getElementById('videoLightboxIframe');
+  const videoLightboxClose = document.getElementById('videoLightboxClose');
+  const videoLightboxOverlay = document.getElementById('videoLightboxOverlay');
+
+  const openVideoLightbox = videoId => {
+    videoLightboxIframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+    videoLightbox.classList.add('is-open');
+  };
+  const closeVideoLightbox = () => {
+    videoLightbox.classList.remove('is-open');
+    videoLightboxIframe.src = '';
+  };
+  videoLightboxClose.addEventListener('click', closeVideoLightbox);
+  videoLightboxOverlay.addEventListener('click', closeVideoLightbox);
+
   /* ---------- 店舗モーダル ---------- */
   const storeModal = document.getElementById('storeModal');
   const storeModalName = document.getElementById('storeModalName');
@@ -185,7 +208,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const storeModalMemo = document.getElementById('storeModalMemo');
       storeModalMemo.textContent = card.dataset.memo || '';
+      const storeModalCredit = document.getElementById('storeModalCredit');
+      storeModalCredit.textContent = card.dataset.credit || '';
+      storeModalCredit.style.display = card.dataset.credit ? '' : 'none';
       storeModalGrid.innerHTML = storeImages.map((src, i) => {
+        const ytId = getYouTubeId(src);
+        if (ytId) {
+          return `<div class="store__modal-item store__modal-item--video" data-index="${i}" data-video-id="${ytId}"><img src="https://img.youtube.com/vi/${ytId}/hqdefault.jpg" alt=""><div class="store__play-icon"><svg viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg"><circle cx="22" cy="22" r="22" fill="rgba(255,255,255,0.92)"/><polygon points="17,13 17,31 33,22" fill="#333"/></svg></div></div>`;
+        }
         return `<div class="store__modal-item" data-index="${i}">
           <img src="${src}" alt="">
         </div>`;
@@ -205,9 +235,14 @@ document.addEventListener('DOMContentLoaded', () => {
   storeModalGrid.addEventListener('click', e => {
     const item = e.target.closest('.store__modal-item');
     if (!item) return;
-    lightboxImages = storeImages;
-    lightboxCurrentIndex = parseInt(item.dataset.index);
-    lightboxImg.src = storeImages[lightboxCurrentIndex];
+    if (item.dataset.videoId) {
+      openVideoLightbox(item.dataset.videoId);
+      return;
+    }
+    const imageItems = [...storeModalGrid.querySelectorAll('.store__modal-item:not(.store__modal-item--video)')];
+    lightboxImages = storeImages.filter(src => !getYouTubeId(src));
+    lightboxCurrentIndex = imageItems.indexOf(item);
+    lightboxImg.src = lightboxImages[lightboxCurrentIndex];
     lightbox.classList.add('is-open');
   });
 
@@ -251,6 +286,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape') {
+      if (videoLightbox.classList.contains('is-open')) { closeVideoLightbox(); return; }
       if (lightbox.classList.contains('is-open')) closeLightbox();
       else closeStoreModal();
     }
