@@ -500,6 +500,10 @@ img{display:block;max-width:100%;}
 .stores{max-width:1180px;margin:0 auto;padding:140px 6vw;}
 .stores__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:40px;}
 .stores__apply{text-align:center;margin:56px auto 0;}
+.stores__apply-text{
+  font-size:.92rem;letter-spacing:.06em;color:#666;
+  margin-bottom:22px;line-height:1.9;
+}
 .stores__apply-btn{min-width:280px;padding:16px 48px;}
 @media(max-width:600px){.stores__apply-btn{width:100%;min-width:0;}}
 .store__card{
