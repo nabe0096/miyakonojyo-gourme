@@ -546,6 +546,54 @@ img{display:block;max-width:100%;}
 .store__address:hover{color:var(--gold);}
 .store__map-link{color:inherit;text-decoration:underline;text-underline-offset:2px;}
 .store__map-link:hover{color:var(--gold);}
+/* ---------- ホームページ制作CTA ---------- */
+.webcta{
+  position:relative;
+  background:url("Image/web-design-contact-cta.jpg") center/cover no-repeat;
+  padding:150px 6vw;
+}
+.webcta::before{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(90deg,rgba(18,15,12,.2),rgba(18,15,12,.4) 45%,rgba(18,15,12,.68));
+}
+.webcta__inner{
+  position:relative;max-width:1120px;margin:0 auto;
+  display:flex;justify-content:flex-end;
+}
+.webcta__content{max-width:520px;}
+.webcta__label{
+  font-family:"Cormorant Garamond",serif;
+  font-size:.75rem;letter-spacing:.35em;color:var(--gold-light);margin-bottom:20px;
+}
+.webcta__title{
+  font-family:"Noto Serif JP",serif;
+  font-size:clamp(1.6rem,3.2vw,2.4rem);font-weight:500;
+  line-height:1.8;letter-spacing:.14em;color:#fff;margin-bottom:26px;
+}
+.webcta__lead{
+  font-size:.92rem;line-height:2.2;letter-spacing:.06em;
+  color:rgba(255,255,255,.82);margin-bottom:24px;
+}
+.webcta__note{
+  font-family:"Noto Serif JP",serif;
+  font-size:.95rem;letter-spacing:.14em;color:var(--gold-light);margin-bottom:34px;
+}
+.webcta__btn{
+  display:inline-flex;align-items:center;gap:14px;
+  padding:15px 42px;border:1px solid rgba(255,255,255,.5);border-radius:2px;
+  color:#fff;text-decoration:none;
+  font-family:"Noto Serif JP",serif;font-size:.88rem;letter-spacing:.18em;
+  transition:background .35s,border-color .35s;
+}
+.webcta__btn::after{content:"\2192";transition:transform .3s;}
+.webcta__btn:hover{background:var(--gold);border-color:var(--gold);}
+.webcta__btn:hover::after{transform:translateX(5px);}
+@media(max-width:760px){
+  .webcta{padding:96px 7vw;background-position:30% center;}
+  .webcta::before{background:rgba(18,15,12,.6);}
+  .webcta__inner{justify-content:flex-start;}
+  .webcta__btn{width:100%;justify-content:center;}
+}
 .store__instagram{
   display:flex;align-items:center;justify-content:center;gap:6px;
   margin-top:14px;padding:8px 18px;

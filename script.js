@@ -127,6 +127,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  document.querySelectorAll('.store__card a').forEach(link => {
+    link.addEventListener('click', e => e.stopPropagation());
+  });
+
   /* ---------- URLパラメータで店舗を自動オープン ---------- */
   const urlParams = new URLSearchParams(location.search);
   const storeParam = urlParams.get('store');
