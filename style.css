@@ -497,8 +497,8 @@ img{display:block;max-width:100%;}
 }
 
 /* ---------- 訪問店舗ギャラリー ---------- */
-.stores{max-width:1180px;margin:0 auto;padding:140px 6vw;}
-.stores__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:40px;}
+.stores{max-width:1280px;margin:0 auto;padding:140px 6vw;}
+.stores__grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:56px;}
 .stores__apply{text-align:center;margin:56px auto 0;}
 .stores__apply-text{
   font-size:.92rem;letter-spacing:.06em;color:#666;
@@ -511,6 +511,7 @@ img{display:block;max-width:100%;}
   box-shadow:0 16px 48px -20px rgba(40,30,10,.2);
   border:1px solid rgba(184,155,94,.12);
   transition:transform .5s var(--ease),box-shadow .5s var(--ease);
+  display:flex;flex-direction:column;height:100%;
 }
 .store__card:hover{transform:translateY(-6px);box-shadow:0 28px 60px -20px rgba(40,30,10,.28);}
 .store__badge{
@@ -526,7 +527,7 @@ img{display:block;max-width:100%;}
 .store__photo--main{background-size:cover;background-position:center;height:100%;}
 .store__thumbs{display:grid;grid-template-rows:repeat(3,1fr);gap:2px;height:100%;}
 .store__thumb{background-size:cover;background-position:center;}
-.store__info{padding:20px 24px 24px;}
+.store__info{padding:20px 24px 24px;display:flex;flex-direction:column;flex:1;}
 .store__name{
   font-family:"Noto Serif JP",serif;font-size:1.4rem;font-weight:600;
   letter-spacing:.1em;color:var(--charcoal);margin-bottom:6px;
@@ -549,6 +550,7 @@ img{display:block;max-width:100%;}
 .store__share.is-copied .store__share-toast{opacity:1;}
 .store__date{font-size:.78rem;letter-spacing:.12em;color:#aaa;}
 .store__address,.store__tel,.store__hours{font-size:.78rem;letter-spacing:.06em;color:#999;margin-top:4px;}
+.store__hours{margin-bottom:14px;}
 .store__address{text-decoration:underline;text-underline-offset:2px;}
 .store__address:hover{color:var(--gold);}
 .store__map-link{color:inherit;text-decoration:underline;text-underline-offset:2px;}
@@ -659,7 +661,7 @@ img{display:block;max-width:100%;}
 }
 .store__instagram{
   display:flex;align-items:center;justify-content:center;gap:6px;
-  margin-top:14px;padding:8px 18px;
+  margin-top:auto;padding:8px 18px;
   border:1px solid var(--gold);border-radius:2px;
   color:var(--gold);text-decoration:none;
   font-family:"Noto Serif JP",serif;font-size:.82rem;letter-spacing:.12em;
