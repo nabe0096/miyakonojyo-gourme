@@ -131,15 +131,6 @@ document.addEventListener('DOMContentLoaded', () => {
     link.addEventListener('click', e => e.stopPropagation());
   });
 
-  /* ---------- URLパラメータで店舗を自動オープン ---------- */
-  const urlParams = new URLSearchParams(location.search);
-  const storeParam = urlParams.get('store');
-  if (storeParam) {
-    const target = document.querySelector(`.store__card[data-id="${storeParam}"]`) ||
-                   [...document.querySelectorAll('.store__card')].find(c => c.dataset.id === storeParam);
-    if (target) setTimeout(() => target.click(), 600);
-  }
-
   /* ---------- ライトボックス変数（先に定義） ---------- */
   const lightbox = document.getElementById('lightbox');
   const lightboxImg = document.getElementById('lightboxImg');
@@ -192,42 +183,56 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let storeImages = [];
 
+  const openStoreModal = card => {
+    if (!card || card.dataset.comingSoon) return;
+    storeImages = JSON.parse(card.dataset.images);
+    storeModalName.textContent = card.dataset.store;
+    storeModalDate.textContent = card.dataset.date;
+    const storeModalInfo = document.getElementById('storeModalInfo');
+    const addressLink = card.dataset.address
+      ? `<a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(card.dataset.address)}" target="_blank" rel="noopener" class="store__map-link">${card.dataset.address}</a>`
+      : null;
+    const infoItems = [
+      card.dataset.genre,
+      card.dataset.price,
+      card.dataset.hours ? `営業時間 ${card.dataset.hours}` : null,
+      addressLink,
+    ].filter(Boolean);
+    storeModalInfo.innerHTML = infoItems.map(t => `<li>${t}</li>`).join('');
+
+    const storeModalMemo = document.getElementById('storeModalMemo');
+    storeModalMemo.textContent = card.dataset.memo || '';
+    const storeModalCredit = document.getElementById('storeModalCredit');
+    storeModalCredit.textContent = card.dataset.credit || '';
+    storeModalCredit.style.display = card.dataset.credit ? '' : 'none';
+    storeModalGrid.innerHTML = storeImages.map((src, i) => {
+      const ytId = getYouTubeId(src);
+      if (ytId) {
+        return `<div class="store__modal-item store__modal-item--video" data-index="${i}" data-video-id="${ytId}"><img src="https://img.youtube.com/vi/${ytId}/hqdefault.jpg" alt=""><div class="store__play-icon"><svg viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg"><circle cx="22" cy="22" r="22" fill="rgba(255,255,255,0.92)"/><polygon points="17,13 17,31 33,22" fill="#333"/></svg></div></div>`;
+      }
+      return `<div class="store__modal-item" data-index="${i}">
+        <img src="${src}" alt="">
+      </div>`;
+    }).join('');
+    storeModal.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+  };
+
   document.querySelectorAll('.store__card').forEach(card => {
     card.addEventListener('click', () => {
-      if (card.dataset.comingSoon) return;
-      storeImages = JSON.parse(card.dataset.images);
-      storeModalName.textContent = card.dataset.store;
-      storeModalDate.textContent = card.dataset.date;
-      const storeModalInfo = document.getElementById('storeModalInfo');
-      const addressLink = card.dataset.address
-        ? `<a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(card.dataset.address)}" target="_blank" rel="noopener" class="store__map-link">${card.dataset.address}</a>`
-        : null;
-      const infoItems = [
-        card.dataset.genre,
-        card.dataset.price,
-        card.dataset.hours ? `営業時間 ${card.dataset.hours}` : null,
-        addressLink,
-      ].filter(Boolean);
-      storeModalInfo.innerHTML = infoItems.map(t => `<li>${t}</li>`).join('');
-
-      const storeModalMemo = document.getElementById('storeModalMemo');
-      storeModalMemo.textContent = card.dataset.memo || '';
-      const storeModalCredit = document.getElementById('storeModalCredit');
-      storeModalCredit.textContent = card.dataset.credit || '';
-      storeModalCredit.style.display = card.dataset.credit ? '' : 'none';
-      storeModalGrid.innerHTML = storeImages.map((src, i) => {
-        const ytId = getYouTubeId(src);
-        if (ytId) {
-          return `<div class="store__modal-item store__modal-item--video" data-index="${i}" data-video-id="${ytId}"><img src="https://img.youtube.com/vi/${ytId}/hqdefault.jpg" alt=""><div class="store__play-icon"><svg viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg"><circle cx="22" cy="22" r="22" fill="rgba(255,255,255,0.92)"/><polygon points="17,13 17,31 33,22" fill="#333"/></svg></div></div>`;
-        }
-        return `<div class="store__modal-item" data-index="${i}">
-          <img src="${src}" alt="">
-        </div>`;
-      }).join('');
-      storeModal.classList.add('is-open');
-      document.body.style.overflow = 'hidden';
+      openStoreModal(card);
     });
   });
+
+  /* ---------- URLパラメータで店舗を自動オープン ---------- */
+  const urlParams = new URLSearchParams(location.search);
+  const storeParam = urlParams.get('store');
+  if (storeParam) {
+    const target = document.querySelector(`.store__card[data-id="${storeParam}"]`) ||
+                   [...document.querySelectorAll('.store__card')].find(c => c.dataset.id === storeParam);
+    if (target) openStoreModal(target);
+    document.documentElement.classList.remove('is-store-direct');
+  }
 
   // 右クリック・長押し・ドラッグ禁止
   storeModalGrid.addEventListener('contextmenu', e => e.preventDefault());

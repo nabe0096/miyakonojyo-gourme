@@ -28,6 +28,10 @@ body{
   -webkit-font-smoothing:antialiased;
 }
 
+html.is-store-direct body{
+  opacity:0;
+}
+
 img{display:block;max-width:100%;}
 
 /* ---------- 共通：見出し ---------- */
