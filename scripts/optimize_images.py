@@ -4,14 +4,17 @@ from PIL import Image, ImageOps
 
 ROOT = Path(__file__).resolve().parents[1]
 TARGET_DIRS = [
+    ROOT / "Image",
     ROOT / "行ったお店",
+    ROOT,
 ]
-MAX_SIZE = 2000
-QUALITY = 85
+MAX_SIZE = 1600
+QUALITY = 78
 JPEG_EXTS = {".jpg", ".jpeg"}
+PNG_EXTS = {".png"}
 
 
-def optimize(path: Path) -> tuple[bool, int, int]:
+def optimize_jpeg(path: Path) -> tuple[bool, int, int]:
     before = path.stat().st_size
 
     with Image.open(path) as img:
@@ -39,20 +42,51 @@ def optimize(path: Path) -> tuple[bool, int, int]:
     return False, before, before
 
 
+def optimize_png(path: Path) -> tuple[bool, int, int]:
+    before = path.stat().st_size
+
+    with Image.open(path) as img:
+        img = ImageOps.exif_transpose(img)
+
+        width, height = img.size
+        scale = min(1, MAX_SIZE / max(width, height))
+        if scale < 1:
+            img = img.resize(
+                (round(width * scale), round(height * scale)),
+                Image.Resampling.LANCZOS,
+            )
+
+        tmp = path.with_suffix(path.suffix + ".tmp")
+        img.save(tmp, "PNG", optimize=True, compress_level=9)
+
+    after = tmp.stat().st_size
+    if after < before:
+        tmp.replace(path)
+        return True, before, after
+
+    tmp.unlink(missing_ok=True)
+    return False, before, before
+
+
 def main() -> None:
     changed = 0
     saved = 0
-    files = []
+    files = set()
 
     for target in TARGET_DIRS:
         if target.exists():
-            files.extend(
+            files.update(
                 p for p in target.rglob("*")
-                if p.is_file() and p.suffix.lower() in JPEG_EXTS
+                if p.is_file()
+                and p.suffix.lower() in JPEG_EXTS | PNG_EXTS
+                and ".git" not in p.parts
             )
 
     for path in sorted(files):
-        did_change, before, after = optimize(path)
+        if path.suffix.lower() in JPEG_EXTS:
+            did_change, before, after = optimize_jpeg(path)
+        else:
+            did_change, before, after = optimize_png(path)
         if did_change:
             changed += 1
             saved += before - after
