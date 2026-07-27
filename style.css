@@ -863,7 +863,20 @@ img{display:block;max-width:100%;}
   .header.is-menu-open .header__menu span:nth-child(1){transform:translateY(7.5px) rotate(45deg);}
   .header.is-menu-open .header__menu span:nth-child(2){opacity:0;}
   .header.is-menu-open .header__menu span:nth-child(3){transform:translateY(-7.5px) rotate(-45deg);}
-  .hero__bg{background-image:url('Image/都城応援プロジェクト/temazushi035.jpg');}
+  .hero{height:100svh;min-height:0;align-items:center;}
+  .hero__bg{
+    top:0;height:100%;
+    background-image:url('Image/都城応援プロジェクト/temazushi035.jpg');
+    background-position:center center;
+    animation:none;
+  }
+  .hero__inner{transform:translateY(-5vh);}
+  .hero__sub{
+    font-size:.64rem;
+    letter-spacing:.24em;
+    white-space:nowrap;
+    margin-bottom:20px;
+  }
   .hero__title{font-size:clamp(2.3rem,10vw,3.2rem);}
   .hero__lead{letter-spacing:.08em;line-height:2;}
   .portfolio__item{max-height:260px;}
