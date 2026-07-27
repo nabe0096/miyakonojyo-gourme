@@ -881,6 +881,7 @@ img{display:block;max-width:100%;}
   .hero__title{font-size:clamp(2.3rem,10vw,3.2rem);}
   .hero__lead{
     font-size:.78rem;
+    margin-top:20px;
     letter-spacing:.04em;
     line-height:1.8;
     white-space:nowrap;
