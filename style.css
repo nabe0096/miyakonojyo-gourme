@@ -863,11 +863,13 @@ img{display:block;max-width:100%;}
   .header.is-menu-open .header__menu span:nth-child(1){transform:translateY(7.5px) rotate(45deg);}
   .header.is-menu-open .header__menu span:nth-child(2){opacity:0;}
   .header.is-menu-open .header__menu span:nth-child(3){transform:translateY(-7.5px) rotate(-45deg);}
-  .hero{height:100svh;min-height:0;align-items:center;}
+  .hero{height:calc(100svh + 48px);min-height:0;margin-top:-48px;padding-top:48px;align-items:center;}
   .hero__bg{
-    top:-1px;height:calc(100% + 2px);
+    top:0;height:100%;
     background-image:url('Image/都城応援プロジェクト/temazushi035.jpg');
     background-position:center top;
+    transform:scale(1.06);
+    transform-origin:center top;
     animation:none;
   }
   .hero__overlay{background:transparent;}
