@@ -870,6 +870,7 @@ img{display:block;max-width:100%;}
     background-position:center center;
     animation:none;
   }
+  .hero__overlay{background:transparent;}
   .hero__inner{transform:translateY(-5vh);}
   .hero__sub{
     font-size:.64rem;
@@ -878,7 +879,12 @@ img{display:block;max-width:100%;}
     margin-bottom:20px;
   }
   .hero__title{font-size:clamp(2.3rem,10vw,3.2rem);}
-  .hero__lead{letter-spacing:.08em;line-height:2;}
+  .hero__lead{
+    font-size:.78rem;
+    letter-spacing:.04em;
+    line-height:1.8;
+    white-space:nowrap;
+  }
   .portfolio__item{max-height:260px;}
   .portfolio__item:nth-child(6n+1){height:210px;}
   .portfolio__item:nth-child(6n+2){height:260px;}
