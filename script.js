@@ -216,6 +216,38 @@ document.addEventListener('DOMContentLoaded', () => {
     }).join('');
     storeModal.classList.add('is-open');
     document.body.style.overflow = 'hidden';
+
+    /* まだ下に続くならヒントを出す（読み進めたら自動で消える） */
+    const inner = storeModal.querySelector('.store__modal-inner');
+    const body  = storeModal.querySelector('.store__modal-body');
+    const updateScrollHint = () => {
+      const remain = body.scrollHeight - body.clientHeight - body.scrollTop;
+      inner.classList.toggle('has-more', remain > 80);
+    };
+    /* 必ず一番上から表示する（画像の読み込みで位置がずれることがあるため複数回リセット） */
+    const toTop = () => { body.scrollTop = 0; };
+    toTop();
+    requestAnimationFrame(toTop);
+    [50, 150, 400].forEach(ms => setTimeout(toTop, ms));
+    requestAnimationFrame(updateScrollHint);
+    [100, 400, 900, 1600].forEach(ms => setTimeout(updateScrollHint, ms));
+    /* 画像が読み終わるたびに高さが変わるので、そのたびに再判定 */
+    body.querySelectorAll('img').forEach(img => {
+      if (!img.complete) img.addEventListener('load', updateScrollHint, { once: true });
+    });
+    if (body._hintHandler) body.removeEventListener('scroll', body._hintHandler);
+    body._hintHandler = updateScrollHint;
+    body.addEventListener('scroll', updateScrollHint, { passive: true });
+    body.addEventListener('touchmove', updateScrollHint, { passive: true });
+    body.addEventListener('wheel', updateScrollHint, { passive: true });
+    window.addEventListener('resize', updateScrollHint);
+    /* 中身の高さが変わったときも再判定（画像の遅延読み込み対策） */
+    if (window.ResizeObserver) {
+      if (body._hintObserver) body._hintObserver.disconnect();
+      body._hintObserver = new ResizeObserver(updateScrollHint);
+      body._hintObserver.observe(body);
+      [...body.children].forEach(el => body._hintObserver.observe(el));
+    }
   };
 
   document.querySelectorAll('.store__card').forEach(card => {

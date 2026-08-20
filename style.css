@@ -716,7 +716,7 @@ img{display:block;max-width:100%;}
   width:min(92vw,1080px);max-height:88vh;
   background:#fff;border-radius:16px;overflow:hidden;
   display:flex;flex-direction:column;
-  animation:modalIn .35s var(--ease);
+  animation:modalIn .35s var(--ease) both;
 }
 @keyframes modalIn{
   from{opacity:0;transform:translate(-50%,-48%);}
@@ -807,6 +807,42 @@ img{display:block;max-width:100%;}
   .stores__grid{grid-template-columns:1fr;}
 }
 
+/* ---------- スクロールできることを知らせる ---------- */
+.store__modal-inner{position:relative;}
+
+/* 下端のぼかし：まだ下に続くことを示す */
+.store__modal-inner::after{
+  content:"";
+  position:absolute;left:0;right:0;bottom:0;height:72px;
+  background:linear-gradient(to top, rgba(255,255,255,.98) 18%, rgba(255,255,255,0));
+  pointer-events:none;opacity:0;transition:opacity .3s ease;
+  z-index:4;
+}
+.store__modal-inner.has-more::after{opacity:1;}
+
+/* 下向き矢印 */
+.store__scroll-hint{
+  position:absolute;left:50%;bottom:14px;
+  width:34px;height:34px;border-radius:50%;
+  background:rgba(255,255,255,.95);
+  border:1px solid rgba(0,0,0,.10);
+  display:flex;align-items:center;justify-content:center;
+  pointer-events:none;opacity:0;transition:opacity .3s ease;
+  z-index:5;margin-left:-17px;
+}
+.store__modal-inner.has-more .store__scroll-hint{
+  opacity:1;
+  animation:scrollNudge 1.8s ease-in-out infinite;
+}
+.store__scroll-hint svg{width:17px;height:17px;stroke:#8a7a52;}
+@keyframes scrollNudge{
+  0%,100%{transform:translateY(0);}
+  50%{transform:translateY(5px);}
+}
+@media(prefers-reduced-motion:reduce){
+  .store__modal-inner.has-more .store__scroll-hint{animation:none;}
+}
+
 /* ---------- モーダル スマホ対応 ---------- */
 @media(max-width:768px){
   .store__modal-inner{
@@ -814,7 +850,7 @@ img{display:block;max-width:100%;}
     transform:none;
     width:92vw;height:fit-content;max-height:88dvh;
     border-radius:16px;overflow:hidden;display:block;
-    animation:modalInMobile .35s var(--ease);
+    animation:modalInMobile .35s var(--ease) both;
   }
   @keyframes modalInMobile{
     from{opacity:0;transform:translateY(12px);}
