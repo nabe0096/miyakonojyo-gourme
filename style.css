@@ -708,8 +708,8 @@ img{display:block;max-width:100%;}
 }
 .store__modal.is-open{display:block;}
 .store__modal-overlay{
-  position:absolute;inset:0;background:rgba(0,0,0,.7);
-  backdrop-filter:blur(4px);
+  position:absolute;inset:0;background:rgba(0,0,0,.55);
+  backdrop-filter:blur(3px);
 }
 .store__modal-inner{
   position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
@@ -810,17 +810,22 @@ img{display:block;max-width:100%;}
 /* ---------- モーダル スマホ対応 ---------- */
 @media(max-width:768px){
   .store__modal-inner{
-    position:fixed;inset:0;
-    top:0;left:0;transform:none;
-    width:100%;max-height:100dvh;border-radius:0;
-    overflow:hidden;display:block;
+    position:fixed;inset:0;margin:auto;
+    transform:none;
+    width:92vw;height:fit-content;max-height:88dvh;
+    border-radius:16px;overflow:hidden;display:block;
+    animation:modalInMobile .35s var(--ease);
+  }
+  @keyframes modalInMobile{
+    from{opacity:0;transform:translateY(12px);}
+    to{opacity:1;transform:translateY(0);}
   }
   .store__modal-close{
     position:absolute;top:12px;right:16px;
     font-size:1.8rem;z-index:10;
   }
   .store__modal-body{
-    height:100dvh;overflow-y:auto;overflow-x:hidden;
+    max-height:88dvh;overflow-y:auto;overflow-x:hidden;
     display:block;
   }
   .store__modal-header{
