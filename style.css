@@ -497,8 +497,8 @@ img{display:block;max-width:100%;}
 }
 .reel__frame{
   width:min(1100px,100%);
-  display:grid;grid-template-columns:repeat(3,minmax(0,320px));
-  justify-content:center;gap:40px;
+  display:grid;grid-template-columns:repeat(4,minmax(0,250px));
+  justify-content:center;gap:32px;
 }
 .reel__video{
   position:relative;width:100%;padding-top:177.78%;/* 9:16 */
