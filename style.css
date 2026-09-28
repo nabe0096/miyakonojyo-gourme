@@ -750,6 +750,8 @@ img{display:block;max-width:100%;}
   line-height:1.9;letter-spacing:.04em;
   border-top:1px solid rgba(0,0,0,.06);padding-top:12px;
 }
+.store__memo-link{color:var(--gold);text-decoration:underline;text-underline-offset:2px;word-break:break-all;}
+.store__memo-link:hover{opacity:.7;}
 .store__modal-close{
   position:absolute;top:16px;right:20px;z-index:10;
   background:none;border:none;font-size:2rem;cursor:pointer;

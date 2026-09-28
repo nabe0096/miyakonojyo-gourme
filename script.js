@@ -201,7 +201,20 @@ document.addEventListener('DOMContentLoaded', () => {
     storeModalInfo.innerHTML = infoItems.map(t => `<li>${t}</li>`).join('');
 
     const storeModalMemo = document.getElementById('storeModalMemo');
-    storeModalMemo.textContent = card.dataset.memo || '';
+    storeModalMemo.textContent = '';
+    (card.dataset.memo || '').split(/(https?:\/\/[^\s　]+)/).forEach((part, i) => {
+      if (i % 2 === 1) {
+        const a = document.createElement('a');
+        a.href = part;
+        a.textContent = part;
+        a.target = '_blank';
+        a.rel = 'noopener';
+        a.className = 'store__memo-link';
+        storeModalMemo.appendChild(a);
+      } else if (part) {
+        storeModalMemo.appendChild(document.createTextNode(part));
+      }
+    });
     const storeModalCredit = document.getElementById('storeModalCredit');
     storeModalCredit.textContent = card.dataset.credit || '';
     storeModalCredit.style.display = card.dataset.credit ? '' : 'none';
