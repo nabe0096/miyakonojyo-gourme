@@ -60,6 +60,8 @@
 - 表紙は「料理のメイン1枚＋サムネ3枚」。サムネは**料理・調理風景・外観**から1枚ずつ選ぶと良い
 - `data-memo` の末尾に `Comment by ◯◯`（STEP 0で聞いた署名）
 - `store__badge` は訪問月（例：`2026.08`）
+- `data-memo` に書いた `https://…` は自動でリンクになる（2026-09-28〜・丸新のSTORESリンクで社長指示）。URLの直後は半角スペースで区切る
+- **`script.js` / `style.css` を変えたら、`index.html` の `?v=日付-番号` を必ず上げる。**上げないと訪問者のブラウザに古い版が残る（2026-09-28、リンク化が反映されず発覚）
 
 ## STEP 3：動画セクションに追加
 
@@ -71,8 +73,16 @@
 </div>
 ```
 
-**動画が5本以上になったらレイアウトを見直す。** 現在の設定（`style.css`）：
-PC 4列 / 900px以下 2列 / 760px以下 1列。5本目を足すと2段になるので、その時点で社長に相談する（2026-09-28 丸新ラーメンで4本目→社長が「PCだけ4列」を選択。横スワイプ・最新だけ表示は不採用）。
+**動画の並び（`style.css` の `.reel__frame`）**：PC 5列（1本210px）/ 1100px以下 3列 / 900px以下 2列 / 760px以下 1列。
+2026-11-10 Three L Squad で5本目→社長が「5本を横1列に」を選択（丸新のときの4列から変更）。**6本目を足すと2段になるので、その時点で社長に相談する。**
+
+### YouTubeへのアップロードもAIがやる（2026-11-10〜）
+
+- チャンネルは「都城グルメ応援プロジェクト」（@MiyakonojoGourmet・`UCHnD5F8z1EqqACbJLnitd8g`）。**なべのだいどころ。とは別のGoogleアカウント**なので、`youtube_upload.py`（API）は使えない（なべのだいどころ。に上がってしまう）
+- 社長のChrome（Claude in Chrome）で `https://studio.youtube.com/channel/UCHnD5F8z1EqqACbJLnitd8g/videos/short?authuser=1` を開く → 作成 → 動画をアップロード
+- ファイルを渡す道具は1回10MBまで。完成動画が大きいときは H.265 の2パスで10MB未満にしてから渡す（22秒なら映像3,250kbps。元との差を PSNR/SSIM で測る。11/10 は PSNR 42.7dB・SSIM 0.978）
+- タイトルは `【店名】`、概要欄はSTEP 1の型。「子ども向けではありません」→ チェックが終わるのを待ってから「公開」
+- `行ったお店/{店}/` に Premiere の作業ファイルがあっても公開されない（`.gitignore` に mp4・prproj・Audio Previews）。写真は `photo/` に英小文字の連番（長辺1600px）で入れる
 
 ## STEP 4：検品（1つでも欠けたらデプロイしない）
 
@@ -95,14 +105,15 @@ gh api repos/nabe0096/miyakonojyo-gourme/pages/builds/latest --jq .status   # bu
 
 ## STEP 6：店舗へ送る文面を作る
 
-`_テンプレート/店舗への納品メール.md` を使う。差し替えるのは2箇所だけ。
+`_テンプレート/店舗への納品メール.md` を使う。差し替えるのは2箇所だけ。**社長が実際に送っている文面はこのテンプレートそのもの**（2026-09-28 社長「今度からこんな感じで送りたい」・BURGER HOUSE Uで送った版と一字一句同じと確認済み）。件名＋本文を、そのまま貼れる完成形で出す。
+Driveリンクは出す前に、ログインなしで開けるか・中身がその店のフォルダかを確認する（WebFetchで開ける）。
 
 1. GoogleドライブのリンクM
 2. 店舗個別ページURL（`?store={data-id}`）
 
-## STEP 7：Instagram用のメッセージを作る
+## STEP 7：（廃止）Instagram用の短いメッセージは作らない
 
-`_テンプレート/店舗へのInstagramメッセージ.md` を使う。メールより短く、DMで読みやすい長さにする。
+2026-09-28 社長指示「InstagramのDMのほうはこれから短い版は必要ない」。お店への連絡はSTEP 6の納品メール本文1本だけ出す。`_テンプレート/店舗へのInstagramメッセージ.md` は保存用に残すだけで使わない。
 
 ---
 
@@ -114,3 +125,4 @@ gh api repos/nabe0096/miyakonojyo-gourme/pages/builds/latest --jq .status   # bu
 | 自由料理屋 て | `te` | 2026-07-18 | nabe |
 | BURGER HOUSE U | `burgerhouseu` | 2026-08-04 | keiko |
 | 丸新ラーメン 本店 | `marushin` | 2026-09-11 | nabe |
+| Three L Squad | `threelsquad` | 2026-10-30 | nabe |
